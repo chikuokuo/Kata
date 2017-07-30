@@ -1,7 +1,7 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PrimeString
 {
@@ -124,16 +124,11 @@ namespace PrimeString
             var stringLength = inputString.Length;
             if (stringLength > 1)
             {
-                for (int i = 0; i < inputString.Length - 1; i++)
+                for (int i = 1; i < inputString.Length; i++)
                 {
-                    var combineStr = string.Empty;
-
-                    for (int j = 0; j < Math.Ceiling((double)(stringLength/(i + 1))); j++)
-                    {
-                        combineStr += inputString.Substring(0, i + 1);  
-                    }
-
-                    if (string.Equals(inputString, combineStr, StringComparison.OrdinalIgnoreCase))
+                    var subString = inputString.Substring(0, i);
+                    var copyTime = stringLength / i;
+                    if (string.Equals(inputString, string.Concat(Enumerable.Repeat(subString, copyTime)), StringComparison.OrdinalIgnoreCase))
                     {
                         return false;
                     }
