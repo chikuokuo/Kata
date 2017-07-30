@@ -121,18 +121,16 @@ namespace PrimeString
     {
         public bool IsPrime(string inputString)
         {
-            var stringLength = inputString.Length;
-            if (stringLength > 1)
+            if (inputString.Length > 1)
             {
-                for (int i = 1; i < inputString.Length; i++)
-                {
-                    var subString = inputString.Substring(0, i);
-                    var copyTime = stringLength / i;
-                    if (string.Equals(inputString, string.Concat(Enumerable.Repeat(subString, copyTime)), StringComparison.OrdinalIgnoreCase))
+                return !inputString.Select((x, index) =>
+                    new
                     {
-                        return false;
-                    }
-                }
+                        subString = inputString.Substring(0, index + 1),
+                        copyTime = inputString.Length / (index + 1)
+                    })
+                    .Where(x => x.copyTime > 1).ToList()
+                    .Exists(x => string.Equals(inputString, string.Concat(Enumerable.Repeat(x.subString, x.copyTime)), StringComparison.OrdinalIgnoreCase));
             }
             return true;
         }
