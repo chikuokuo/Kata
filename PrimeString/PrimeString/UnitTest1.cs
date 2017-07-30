@@ -36,11 +36,11 @@ namespace PrimeString
         }
 
         [TestMethod]
-        public void String_aa_IsPrime()
+        public void String_aa_IsNotPrime()
         {
             var primeString = new PrimeString();
             var result = primeString.IsPrime("aa");
-            Assert.AreEqual(true, result);
+            Assert.AreEqual(false, result);
         }
 
         [TestMethod]
@@ -52,11 +52,11 @@ namespace PrimeString
         }
 
         [TestMethod]
-        public void String_aaa_IsPrime()
+        public void String_aaa_IsNotPrime()
         {
             var primeString = new PrimeString();
             var result = primeString.IsPrime("aaa");
-            Assert.AreEqual(true, result);
+            Assert.AreEqual(false, result);
         }
 
         [TestMethod]
@@ -66,6 +66,54 @@ namespace PrimeString
             var result = primeString.IsPrime("aab");
             Assert.AreEqual(true, result);
         }
+
+        [TestMethod]
+        public void String_abc_IsPrime()
+        {
+            var primeString = new PrimeString();
+            var result = primeString.IsPrime("abc");
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void String_abab_IsNotPrime()
+        {
+            var primeString = new PrimeString();
+            var result = primeString.IsPrime("abab");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void String_abcab_IsPrime()
+        {
+            var primeString = new PrimeString();
+            var result = primeString.IsPrime("abcab");
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void String_abcabc_IsNotPrime()
+        {
+            var primeString = new PrimeString();
+            var result = primeString.IsPrime("abcabc");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void String_abcabcabc_IsNotPrime()
+        {
+            var primeString = new PrimeString();
+            var result = primeString.IsPrime("abcabcabc");
+            Assert.AreEqual(false, result);
+        }
+
+        [TestMethod]
+        public void String_fdsyffdsyffdsyffdsyffdsyf_IsNotPrime()
+        {
+            var primeString = new PrimeString();
+            var result = primeString.IsPrime("fdsyffdsyffdsyffdsyffdsyf");
+            Assert.AreEqual(false, result);
+        }
     }
 
     
@@ -73,21 +121,23 @@ namespace PrimeString
     {
         public bool IsPrime(string inputString)
         {
-            if (inputString.Length > 1)
+            var stringLength = inputString.Length;
+            if (stringLength > 1)
             {
-                for (int i = 0; i < inputString.Length; i++)
+                for (int i = 0; i < inputString.Length - 1; i++)
                 {
-                    var expectString = inputString.Substring(0, i + 1);
-                    for (int j = 1; j < Math.Ceiling((double)(inputString.Length/(i + 1))); j++)
+                    var combineStr = string.Empty;
+
+                    for (int j = 0; j < Math.Ceiling((double)(stringLength/(i + 1))); j++)
                     {
-                        expectString += string.Concat(inputString[0]);  
+                        combineStr += inputString.Substring(0, i + 1);  
                     }
-                    if (string.Equals(inputString, expectString, StringComparison.OrdinalIgnoreCase))
+
+                    if (string.Equals(inputString, combineStr, StringComparison.OrdinalIgnoreCase))
                     {
-                        return true;
+                        return false;
                     }
                 }
-                return false;
             }
             return true;
         }
